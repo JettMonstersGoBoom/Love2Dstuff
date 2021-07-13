@@ -26,6 +26,7 @@ function love.draw()
 	love.graphics.line(_mx,_my,0,0)
 end
 
+-- specify our canvas as 240x135 initial scaled by 2 
 function love.load(arg)
 	print("first")
 	FixedCanvas:create(240,135,2)
