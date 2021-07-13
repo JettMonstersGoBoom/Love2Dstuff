@@ -2,7 +2,7 @@
 local FixedCanvas = {}
 
 function FixedCanvas.draw(arg)
-	FixedCanvas.display_width, FixedCanvas.display_height = love.graphics.getDimensions( )
+	FixedCanvas.display_width, FixedCanvas.display_height = FixedCanvas._getDimensions( )
 
 	local scale_w, scale_h = FixedCanvas.display_width / FixedCanvas.width, FixedCanvas.display_height / FixedCanvas.height
 	FixedCanvas.scale = math.floor(math.min(scale_w, scale_h))
@@ -28,6 +28,22 @@ function FixedCanvas.draw(arg)
 --	fs.write("output/canvas.png",data)
 end
 
+function FixedCanvas.getWidth()
+	return FixedCanvas.width
+end
+
+function FixedCanvas.getHeight()
+	return FixedCanvas.height
+end
+
+function FixedCanvas.getDimensions()
+	return FixedCanvas.width,FixedCanvas.height
+end
+
+function FixedCanvas.getCanvas()
+	return FixedCanvas.canvas
+end
+
 function FixedCanvas.create(self,width,height,scale,fullscreen)
 	self._mousemoved		= love.mousemoved 
 	love.mousemoved    	= self.mousemoved
@@ -39,7 +55,11 @@ function FixedCanvas.create(self,width,height,scale,fullscreen)
 	love.keypressed 		= FixedCanvas.keypressed
 	self._draw        	= love.draw
 	love.draw          	= FixedCanvas.draw
-
+	self._getDimensions = love.graphics.getDimensions
+	love.graphics.getWidth = FixedCanvas.getWidth
+	love.graphics.getHeight = FixedCanvas.getHeight
+	love.graphics.getDimensions = FixedCanvas.getDimensions
+	love.graphics.getCanvas = FixedCanvas.getCanvas
 	self.fullscreen = fullscreen or false
 	self.width = width or 320
 	self.height = height or 200
